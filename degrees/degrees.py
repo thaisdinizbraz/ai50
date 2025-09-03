@@ -94,37 +94,40 @@ def shortest_path(source, target):
     source and target: IMDB id for a person's name
 
     Implements BFS to guarantee shortest path in an unweighted graph
+    where state = starId and action = movieId
     """
-    if source == target:
-        return []
-    # state == starId, action == movieId
     frontier = QueueFrontier()
+    node = Node(state = source, parent = None, action = None)
 
-    exploredSet = set()
-
-    start = Node(state = source, parent = None, action = None)
-    frontier.add(start)
+    explored = set()
 
     while True:
+
+        if node.state == target:
+            return track_parent(node)
+
+        explored.add(node.state)
+
+        for movieId, personId in neighbors_for_person(node.state):
+            if not frontier.contains_state(personId) and personId not in explored:
+                child = Node(state = personId, parent = node, action = movieId)
+                if child.state == target:
+                    return track_parent(child)
+                frontier.add(child)
+
         if frontier.empty():
             return None
 
         node = frontier.remove()
 
-        if (node.state == target):
-            path = []
-            while node.parent is not None:
-                path.append((node.action, node.state))
-                node = node.parent
-            path.reverse()
-            return path
 
-        exploredSet.add(node.state)
-
-        for movieId, personId in neighbors_for_person(node.state):
-            if not frontier.contains_state(personId) and personId not in exploredSet:
-                child = Node(state = personId, parent = node, action = movieId)
-                frontier.add(child)
+def track_parent(node):
+    path = []
+    while node.parent is not None:
+        path.append((node.action, node.state))
+        node = node.parent
+    path.reverse()
+    return path
 
 
 def person_id_for_name(name):
