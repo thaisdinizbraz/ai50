@@ -8,12 +8,15 @@ class Node():
 class StackFrontier():
     def __init__(self):
         self.frontier = []
+        self.frontierSet = set()
 
     def add(self, node):
         self.frontier.append(node)
+        self.frontierSet.add(node.state)
 
     def contains_state(self, state):
-        return any(node.state == state for node in self.frontier)
+        # Guarantee O(1) lookup
+        return state in self.frontierSet
 
     def empty(self):
         return len(self.frontier) == 0
@@ -22,8 +25,8 @@ class StackFrontier():
         if self.empty():
             raise Exception("empty frontier")
         else:
-            node = self.frontier[-1]
-            self.frontier = self.frontier[:-1]
+            node = self.pop()
+            self.frontierSet.remove(node.state)
             return node
 
 

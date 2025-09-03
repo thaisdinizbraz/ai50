@@ -96,23 +96,20 @@ def shortest_path(source, target):
     Implements BFS to guarantee shortest path in an unweighted graph
     """
     if source == target:
-        return None
+        return []
     # state == starId, action == movieId
     frontier = QueueFrontier()
-    # Guarantee O(1) lookup
-    frontierSet = set()
+
     exploredSet = set()
 
     start = Node(state = source, parent = None, action = None)
     frontier.add(start)
-    frontierSet.add(start.state)
 
     while True:
         if frontier.empty():
             return None
 
         node = frontier.remove()
-        frontierSet.remove(node.state)
 
         if (node.state == target):
             path = []
@@ -125,10 +122,9 @@ def shortest_path(source, target):
         exploredSet.add(node.state)
 
         for movieId, personId in neighbors_for_person(node.state):
-            if personId not in frontierSet and personId not in exploredSet:
+            if not frontier.contains_state(personId) and personId not in exploredSet:
                 child = Node(state = personId, parent = node, action = movieId)
                 frontier.add(child)
-                frontierSet.add(child.state)
 
 
 def person_id_for_name(name):
