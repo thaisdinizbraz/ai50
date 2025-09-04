@@ -97,7 +97,7 @@ def shortest_path(source, target):
     where state = starId and action = movieId
     """
     frontier = QueueFrontier()
-    node = Node(state = source, parent = None, action = None)
+    node = Node(state=source, parent=None, action=None)
 
     explored = set()
 
@@ -110,7 +110,7 @@ def shortest_path(source, target):
 
         for movieId, personId in neighbors_for_person(node.state):
             if not frontier.contains_state(personId) and personId not in explored:
-                child = Node(state = personId, parent = node, action = movieId)
+                child = Node(state=personId, parent=node, action=movieId)
                 if child.state == target:
                     return track_parent(child)
                 frontier.add(child)
@@ -122,6 +122,9 @@ def shortest_path(source, target):
 
 
 def track_parent(node):
+    """
+    Returns the list of the node's parents, paired by movies and starId
+    """
     path = []
     while node.parent is not None:
         path.append((node.action, node.state))
