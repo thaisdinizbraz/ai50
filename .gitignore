@@ -1,4 +1,5 @@
 degrees/large/
 degrees/small/
 degrees/__pycache__/
-degrees.zip
+*.zip
+my_check50_env
