@@ -21,6 +21,7 @@ def initial_state():
 def player(board):
     """
     Returns player who has the next turn on a board.
+    Always starting with X
     """
     all_empty = all(cell == EMPTY for row in board for cell in row)
     xs = sum(cell == X for row in board for cell in row)
@@ -39,7 +40,12 @@ def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
-    raise NotImplementedError
+    i, j = action
+    if board[i][j] != EMPTY:
+        raise Exception("Can't execute movement. Cell is already filled")
+    nextPlayer = player(board)
+    board[i][j] = nextPlayer
+    return board
 
 
 def winner(board):
