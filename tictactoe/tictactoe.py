@@ -60,43 +60,59 @@ def terminal(board):
     """
     Returns True if game is over, False otherwise.
     """
-    return checkRowsWin(board) or checkColsWin(board) or checkDiagonalWin(board) or checkAntiDiagonalWin(board) or checkTie(board)
+    return (
+        checkRowsWin(board) is not None or
+        checkColsWin(board) is not None or
+        checkDiagonalWin(board) is not None or
+        checkAntiDiagonalWin(board) is not None or
+        checkTie(board)
+    )
 
 
 def checkRowsWin(board):
     """
-    Returns True if X or O completed a whole row (and won)
+    Returns X or O if a whole row is completed
     """
-    xs_per_row = [sum(cell == X for cell in row) for row in board]
-    os_per_row = [sum(cell == O for cell in row) for row in board]
-    return any(count == BOARD_SIZE for count in xs_per_row) or any(count == BOARD_SIZE for count in os_per_row)
+    for row in board:
+        if all(cell == X for cell in row):
+            return X
+        if all(cell == O for cell in row):
+            return O
+    return None
 
 
 def checkColsWin(board):
     """
-    Returns True if X or O completed a whole column (and won)
+    Returns X or O if a whole column is completed
     """
-    xs_per_col = [sum(board[row][col] == X for row in range(len(board))) for col in range(BOARD_SIZE)]
-    os_per_col = [sum(board[row][col] == O for row in range(len(board))) for col in range(BOARD_SIZE)]
-    return any(count == BOARD_SIZE for count in xs_per_col) or any(count == BOARD_SIZE for count in os_per_col)
+    for col in range(BOARD_SIZE):
+        if all(board[row][col] == X for row in range(BOARD_SIZE)):
+            return X
+        if all(board[row][col] == O for row in range(BOARD_SIZE)):
+            return O
+    return None
 
 
 def checkDiagonalWin(board):
     """
-    Returns True if X or O completed the diagonal (and won)
+    Returns X or O if the diagonal is completed
     """
-    xs = sum(board[i][i] == X for i in range(BOARD_SIZE))
-    os = sum(board[i][i] == O for i in range(BOARD_SIZE))
-    return xs == BOARD_SIZE or os == BOARD_SIZE
+    if all(board[i][i] == X for i in range(BOARD_SIZE)):
+        return X
+    if all(board[i][i] == O for i in range(BOARD_SIZE)):
+        return O
+    return None
 
 
 def checkAntiDiagonalWin(board):
     """
-    Returns True if X or O completed the antidiagonal (and won)
+    Returns X or O if the antidiagonal is completed
     """
-    xs = sum(board[i][BOARD_SIZE - 1 - i] == X for i in range(BOARD_SIZE))
-    os = sum(board[i][BOARD_SIZE - 1 - i] == O for i in range(BOARD_SIZE))
-    return xs == BOARD_SIZE or os == BOARD_SIZE
+    if all(board[i][BOARD_SIZE - 1 - i] == X for i in range(BOARD_SIZE)):
+        return X
+    if all(board[i][BOARD_SIZE - 1 - i] == O for i in range(BOARD_SIZE)):
+        return O
+    return None
 
 
 def checkTie(board):
