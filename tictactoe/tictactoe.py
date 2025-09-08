@@ -53,7 +53,7 @@ def winner(board):
     """
     Returns the winner of the game, if there is one.
     """
-    raise NotImplementedError
+    return {1: X, -1: O}.get(utility(board), None)
 
 
 def terminal(board):
