@@ -11,6 +11,7 @@ EMPTY = None
 
 BOARD_SIZE = 3
 
+
 def initial_state():
     """
     Returns starting state of the board.
@@ -50,7 +51,7 @@ def result(board, action):
     i, j = action
 
     if not (0 <= i < BOARD_SIZE and 0 <= j < BOARD_SIZE):
-        raise Exception (f"Can't execute movement. Action ({i}, {j}) is out of bounds")
+        raise Exception(f"Can't execute movement. Action ({i}, {j}) is out of bounds")
 
     if board[i][j] != EMPTY:
         raise Exception("Can't execute movement. Cell is already filled")
