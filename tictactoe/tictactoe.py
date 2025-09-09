@@ -138,13 +138,13 @@ def utility(board):
     """
     Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
     """
-    result = (
+    ans = (
         checkRowsWin(board)
         or checkColsWin(board)
         or checkDiagonalWin(board)
         or checkAntiDiagonalWin(board)
     )
-    return {X: 1, O: -1}.get(result, 0)
+    return {X: 1, O: -1}.get(ans, 0)
 
 
 def minimax(board):
